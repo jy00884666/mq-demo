@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- <project> 文件的根节点 -->
+    <!-- <modelversion > ： pom.xml 使用的对象模型版本 -->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- <groupId > ：项目名称，一般写项目的域名 -->
+    <groupId>org.example</groupId>
+    <!-- <artifactId > ：模块名称，子项目名或模块名称 -->
+    <artifactId>mq-demo</artifactId>
+    <!-- <version > ：产品的版本号  -->
+    <version>1.0-SNAPSHOT</version>
+    <!-- <packaging > ：打包类型，一般有 jar、war、pom 等。
+    pom表示只是起配置作用、没有主类main的模块是不需要配置打包的-->
+    <!-- 打包方式，如果是java项目则用 jar，
+         如果是web项目则用war -->
+    <!--<packaging>war</packaging>-->
+    <packaging>pom</packaging>
+    <modules>
+        <module>consumer</module>
+        <module>publisher</module>
+    </modules>
+    
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <springboot.version>2.3.1.RELEASE</springboot.version>
+        <spring.version>5.2.7.RELEASE</spring.version>
+    </properties>
+    
+    <parent>
+        <!-- springboot依赖 -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>${springboot.version}</version>
+        <!-- relativePath 的作用是为了找到父级工程的pom.xml;因为子工程需要继承父工程的pom.xml文件中的内容。然后relativePath 标签内的值使用相对路径定位到父工程的pom.xml。-->
+        <relativePath/>
+    </parent>
+    
+    <!-- <name > ：项目的显示名，常用于 Maven 生成的文档。 -->
+    <name>mq-demo</name>
+    <!-- <description > ：项目描述，常用于 Maven 生成的文档 -->
+    <description>Demo project for Spring Boot</description>
+    
+    <!-- <dependencies> ：项目依赖构件配置，配置项目依赖构件的坐标-->
+    <dependencies>
+        <!-- 阿里的FastJson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
+        </dependency>
+        <!-- lombok依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+        </dependency>
+        <!-- Spring Boot 核心,starter，包括 自动配置支持，日志、YAML -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Spring Boot 核心,对全栈web开发的支持，包括 Tomcat 、spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- AMQP依赖包,包含RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    </dependencies>
+    
+    <!-- <build> ：项目构建配置，配置编译、运行打包插件等 -->
+</project>

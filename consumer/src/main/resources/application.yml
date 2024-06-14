@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  rabbitmq:
+    # Windows上安装完成默认路径 127.0.0.1
+    host: localhost
+    # Windows上安装完成默认端口 5672
+    port: 5672
+    virtual-host: /
+    username: guest
+    password: guest
+    #开启发送确认机制，将来消息到达交换机以后有一个回调
+    publisher-confirm-type: correlated
+    #消息到达消息队列回调（如果消息没有成功到达队列，会触发回调方法）
+    publisher-returns: true
+    template:
+      retry:
+        enabled: true  # 开启重发机制
+        initial-interval: 1000ms #间隔 1秒
+        max-attempts: 6    #最多发6次
+        multiplier: 1.2 #每次间隔 时间*1.2
+        max-interval: 10000ms  #每次最大间隔时间
+    listener:
+      simple:
+        acknowledge-mode: manual
+
+rabbitmq:
+  exchangeName: exchange1
+  queueName: queue1
