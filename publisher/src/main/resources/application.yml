@@ -7,8 +7,11 @@ spring:
     host: localhost
     # Windows上安装完成默认端口 5672
     port: 5672
+    # 链接的虚拟主机
     virtual-host: /
+    # 用户名
     username: guest
+    # 密码
     password: guest
     #开启发送确认机制，将来消息到达交换机以后有一个回调
     publisher-confirm-type: correlated
@@ -23,8 +26,20 @@ spring:
         max-interval: 10000ms  #每次最大间隔时间
     listener:
       simple:
-        acknowledge-mode: manual
+        # 应答模式:none(无应答模式),auto(自动应答模式),manual(手动应答模式)
+        acknowledge-mode: auto
 
 rabbitmq:
-  exchangeName: exchange1
-  queueName: queue1
+  # 无交换机模式:直接发送到queue1消息队列
+  queueName1: queue1
+  # 广播式交换机:Fanout会将消息路由到每个绑定的队列中
+  fanoutExchange1: fanoutExchange1
+  # 指定式交换机:Direct会将消息路由到指定的RoutingKey绑定的队列中
+  fanoutExchange2: fanoutExchange2
+  # 通配符交换机:TopicExchange与Direct类似,区别在于routingKey可以是多个单词列表用.分割,Queue与Exchange绑定BingKey时可以使用通配符,#表示0个或多个单词,*表示一个单词
+  fanoutExchange3: fanoutExchange3
+
+
+
+
+

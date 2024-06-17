@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   rabbitmq:
@@ -7,8 +7,11 @@ spring:
     host: localhost
     # Windows上安装完成默认端口 5672
     port: 5672
+    # 链接的虚拟主机
     virtual-host: /
+    # 用户名
     username: guest
+    # 密码
     password: guest
     #开启发送确认机制，将来消息到达交换机以后有一个回调
     publisher-confirm-type: correlated
@@ -23,8 +26,28 @@ spring:
         max-interval: 10000ms  #每次最大间隔时间
     listener:
       simple:
-        acknowledge-mode: manual
+        # 应答模式:none(无应答模式),auto(自动应答模式),manual(手动应答模式)
+        acknowledge-mode: auto
+        #消息消费者每次只能获取一条消息,处理完成才能获取下一条,不配置的话默认是所有消费者平摊处理队列中所有消息不会考虑消费者处理能力
+        prefetch: 1
 
 rabbitmq:
-  exchangeName: exchange1
-  queueName: queue1
+  # queue1,queue2绑定交换机fanoutExchange1,Fanout广播模式无RoutingKey
+  queueName1: queue1
+  queueName2: queue2
+  # queue3,queue4绑定交换机fanoutExchange2,Direct指定模式queue3{RoutingKey[red,blue]},queue4{RoutingKey[red,yellow]}
+  queueName3: queue3
+  queueName4: queue4
+  # queue5,queue6绑定交换机fanoutExchange3,Tpoic通配符模式queue5{RoutingKey[china.#]},queue6{RoutingKey[#.news]}
+  queueName5: queue5
+  queueName6: queue6
+  # 广播式交换机:Fanout会将消息路由到每个绑定的队列中
+  fanoutExchange1: fanoutExchange1
+  # 指定式交换机:Direct会将消息路由到指定的RoutingKey绑定的队列中
+  fanoutExchange2: fanoutExchange2
+  # 通配符交换机:TopicExchange与Direct类似,区别在于routingKey可以是多个单词列表用.分割,Queue与Exchange绑定BingKey时可以使用通配符,#表示0个或多个单词,*表示一个单词
+  fanoutExchange3: fanoutExchange3
+
+
+
+

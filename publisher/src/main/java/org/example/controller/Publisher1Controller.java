@@ -10,35 +10,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/publisherController")
-public class PublisherController {
-    
-    /**
-     * 交换机名称
-     */
-    @Value("${rabbitmq.exchangeName}")
-    private String EXCHANGE_NAME;
+@RequestMapping("/publisher1Controller")
+public class Publisher1Controller {
     
     /**
      * 消息队列名称
      */
-    @Value("${rabbitmq.queueName}")
-    private String QUEUE_NAME;
+    @Value("${rabbitmq.queueName1}")
+    private String QUEUE_NAME1;
     
     @Autowired
     private RabbitTemplate rabbitTemplate;
     
     /**
      * 无交换机,直接发送消息到队列queue
+     * 通过访问 http://localhost:8081/publisher1Controller/send1?msg=hello 发送消息
      * @param msg
      * @return
      */
     @RequestMapping("/send1")
     public String send1(@RequestParam("msg") String msg) {
         try {
-            rabbitTemplate.convertAndSend(QUEUE_NAME, msg);
+            rabbitTemplate.convertAndSend(QUEUE_NAME1, msg);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("消息发送异常:" + e.getMessage(), e);
         }
         return "it is msg:" + msg;
     }
