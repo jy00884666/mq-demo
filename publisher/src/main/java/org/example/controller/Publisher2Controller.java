@@ -23,9 +23,9 @@ public class Publisher2Controller {
     private RabbitTemplate rabbitTemplate;
     
     /**
-     * 广播式交换机:fanout会将消息路由到每个绑定的队列中
+     * 广播式交换机:Fanout会将消息路由到每个绑定的队列中
      * 通过访问发送消息
-     * http://localhost:8081/publisher2Controller/send2?msg=广播式交换机:fanout会将消息路由到每个绑定的队列中
+     * http://localhost:8081/publisher2Controller/send2?msg=广播式交换机来了
      */
     @RequestMapping("/send2")
     public String send2(@RequestParam("msg") String msg) {

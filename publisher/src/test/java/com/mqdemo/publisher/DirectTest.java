@@ -32,10 +32,6 @@ public class DirectTest {
     
     /**
      * 指定式交换机:Direct会将消息路由到指定的Routing key绑定的队列中
-     * 通过访问发送消息
-     * http://localhost:8081/publisherController2/send1?msg=red
-     * http://localhost:8081/publisherController2/send1?msg=blue
-     * http://localhost:8081/publisherController2/send1?msg=yellow
      * fanoutExchange2交换机绑定了queue3{RoutingKey[red,blue]},queue4{RoutingKey[red,yellow]}
      */
     @Test

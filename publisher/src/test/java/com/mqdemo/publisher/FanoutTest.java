@@ -37,7 +37,7 @@ public class FanoutTest {
     public void testSend2() {
         try {
             // 发送消息入参(交换机名称,RoutingKey[暂时为空],消息内容)
-            rabbitTemplate.convertAndSend(EXCHANGE_NAME, null, "广播式交换机:fanout会将消息路由到每个绑定的队列中");
+            rabbitTemplate.convertAndSend(EXCHANGE_NAME, null, "广播式交换机来了");
         } catch (Exception e) {
             log.error("消息发送异常:" + e.getMessage(), e);
         }
