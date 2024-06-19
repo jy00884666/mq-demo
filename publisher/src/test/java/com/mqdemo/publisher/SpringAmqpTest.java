@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 消息发送测试
  */
@@ -38,6 +41,36 @@ public class SpringAmqpTest {
         try {
             // 发送消息入参(queue队列名称,消息内容)
             rabbitTemplate.convertAndSend(QUEUE_NAME1, "hello 无交换机模式,直接发送消息到队列queue");
+        } catch (Exception e) {
+            log.error("消息发送异常:" + e.getMessage(), e);
+        }
+    }
+    
+    /**
+     * 交换机名称
+     */
+    @Value("${rabbitmq.fanoutExchange4}")
+    private String EXCHANGE_NAME4;
+    
+    /**
+     * 绑定queue7:RoutingKey[object.pojo]
+     */
+    @Value("${rabbitmq.queue.routingkey7}")
+    private String ROUTING_KEY;
+    
+    /**
+     * 测试消息转换器:发送消息到交换机4:绑定queue7:RoutingKey[object.pojo]
+     * 消息内容为map或者pojo对象
+     */
+    @Test
+    public void testSend2() {
+        try {
+            Map<String, String> map = new HashMap<>();
+            map.put("name", "沙士杰");
+            map.put("age", "18");
+            map.put("mobile", "13816421047");
+            // 发送消息入参(queue队列名称,消息内容)
+            rabbitTemplate.convertAndSend(EXCHANGE_NAME4, ROUTING_KEY, map);
         } catch (Exception e) {
             log.error("消息发送异常:" + e.getMessage(), e);
         }

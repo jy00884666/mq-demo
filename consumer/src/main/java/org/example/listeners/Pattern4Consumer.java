@@ -30,7 +30,7 @@ public class Pattern4Consumer {
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = "${rabbitmq.queueName5}", durable = "true"),
             exchange = @Exchange(name = "${rabbitmq.fanoutExchange3}", type = ExchangeTypes.TOPIC),
-            key = {"china.#"}
+            key = {"${rabbitmq.queue.routingkey5}"}
     ))
     public void listenerQueue5(String msg) {
         log.info("queue5队列:消费者5收到了消息:{}", msg);
@@ -44,7 +44,7 @@ public class Pattern4Consumer {
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = "${rabbitmq.queueName6}", durable = "true"),
             exchange = @Exchange(name = "${rabbitmq.fanoutExchange3}", type = ExchangeTypes.TOPIC),
-            key = {"#.news"}
+            key = {"${rabbitmq.queue.routingkey6}"}
     ))
     public void listenerQueue6(String msg) {
         log.info("queue6队列:消费者6收到了消息:{}", msg);

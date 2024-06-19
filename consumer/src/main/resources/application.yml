@@ -41,13 +41,23 @@ rabbitmq:
   # queue5,queue6绑定交换机fanoutExchange3,Tpoic通配符模式queue5{RoutingKey[china.#]},queue6{RoutingKey[#.news]}
   queueName5: queue5
   queueName6: queue6
+  # queue7 消息转换器,消息内容为map或者pojo对象
+  queueName7: queue7
   # 广播式交换机:Fanout会将消息路由到每个绑定的队列中
   fanoutExchange1: fanoutExchange1
   # 指定式交换机:Direct会将消息路由到指定的RoutingKey绑定的队列中
   fanoutExchange2: fanoutExchange2
   # 通配符交换机:TopicExchange与Direct类似,区别在于routingKey可以是多个单词列表用.分割,Queue与Exchange绑定BingKey时可以使用通配符,#表示0个或多个单词,*表示一个单词
   fanoutExchange3: fanoutExchange3
-
+  # 交换机4:绑定queue7:RoutingKey[object.pojo]
+  fanoutExchange4: fanoutExchange4
+  queue:
+    # 处理queue5{RoutingKey[china.#]}队列的消息
+    routingkey5: 'china.#'
+    # 处理queue6{RoutingKey[#.news]}队列的消息
+    routingkey6: '#.news'
+    # queue7的Routingkey
+    routingkey7: object.pojo
 
 
 
