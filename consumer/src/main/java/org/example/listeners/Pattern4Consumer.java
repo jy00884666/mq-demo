@@ -24,7 +24,7 @@ public class Pattern4Consumer {
     
     /**
      * 处理queue5{RoutingKey[china.#]}队列的消息
-     * durable = "true"表示创建持久化的消息队列
+     * durable = "true"表示创建持久化的消息队列,非持久化消息队列queue不会将消息记录到磁盘
      * @param msg
      */
     @RabbitListener(bindings = @QueueBinding(
@@ -38,7 +38,7 @@ public class Pattern4Consumer {
     
     /**
      * 处理queue6{RoutingKey[#.news]}队列的消息
-     * durable = "true"表示创建持久化的消息队列
+     * durable = "true"表示创建持久化的消息队列,非持久化消息队列queue不会将消息记录到磁盘
      * @param msg
      */
     @RabbitListener(bindings = @QueueBinding(

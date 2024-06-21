@@ -22,7 +22,7 @@ public class Pattern1Consumer {
     
     /**
      * 处理queue1队列的消息
-     * 模式1,无交换机,发送者Publisher直接发送消息到队列queue1
+     * 无交换机模式,发送者Publisher直接发送消息到队列queue1
      * 使用@RabbitListener(queues = "queue1")监听queue1消息队列
      * @param msg
      */

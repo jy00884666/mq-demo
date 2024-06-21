@@ -13,21 +13,27 @@ spring:
     username: guest
     # 密码
     password: guest
-    #开启发送确认机制，将来消息到达交换机以后有一个回调
+    #  * 如何处理生产者的确认消息?
+    #  * 生产者确认需要额外的网络和系统资源开销,尽量不要使用
+    #  * 如果一定要使用，无需开启Publisher-Return机制，因为一般路由失败是自己业务问题
+    #  * 对于nack消息可以有限次数重试，依然失败则记录异常消息
+    # 开启消息生产者消息发送确认机制,消息到达交换机以后有一个回调,这里有三种类型 none-关闭确认机制, simple-同步阻塞等待MQ回执消息, correlated-MQ异步回调方式回执消息
     publisher-confirm-type: correlated
-    #消息到达消息队列回调（如果消息没有成功到达队列，会触发回调方法）
+    # 消息到达消息队列回调(如果消息没有成功到达队列,会触发回调方法)
     publisher-returns: true
+    # 设置MQ超时连接时间
+    connection-timeout: 1s # 连接超过1秒算超时
+    # 由于网络原因会出现客户端连接MQ失败的情况,通过配置开启连接失败后重连机制,是阻塞式重连
     template:
+      # 这里的超时重发是指连接MQ失败的超时,并不是生产者发送消息超时重连
       retry:
-        enabled: true  # 开启重发机制
-        initial-interval: 1000ms #间隔 1秒
-        max-attempts: 6    #最多发6次
-        multiplier: 1.2 #每次间隔 时间*1.2
-        max-interval: 10000ms  #每次最大间隔时间
-    listener:
-      simple:
-        # 应答模式:none(无应答模式),auto(自动应答模式),manual(手动应答模式)
-        acknowledge-mode: auto
+        enabled: true # 开启重发机制
+        initial-interval: 1000ms # 失败后的初始等待时间,间隔 1秒
+        max-attempts: 6 # 最大重发次数,最多发6次
+        multiplier: 1 # 失败后下次等待时长倍数,每次等待时长 = initial-interval * multiplier
+        max-interval: 10000ms #每次最大间隔时间
+
+
 
 rabbitmq:
   # 无交换机模式:直接发送到queue1消息队列
@@ -40,6 +46,8 @@ rabbitmq:
   fanoutExchange3: fanoutExchange3
   # 交换机4:绑定queue7:RoutingKey[object.pojo]
   fanoutExchange4: fanoutExchange4
+  # 交换机5:绑定queue8:RoutingKey[confirmCallback]
+  fanoutExchange5: fanoutExchange5
   queue:
     # 处理queue5{RoutingKey[china.#]}队列的消息
     routingkey5: "china.#"
@@ -47,5 +55,7 @@ rabbitmq:
     routingkey6: "#.news"
     # queue7的Routingkey
     routingkey7: object.pojo
+    # queue8的Routingkey
+    routingkey8: confirmCallback
 
 

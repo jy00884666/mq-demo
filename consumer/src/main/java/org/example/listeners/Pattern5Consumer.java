@@ -24,7 +24,7 @@ public class Pattern5Consumer {
     
     /**
      * 处理queue7队列的消息
-     * durable = "true"表示创建持久化的消息队列
+     * durable = "true"表示创建持久化的消息队列,非持久化消息队列queue不会将消息记录到磁盘
      *
      * 经过测试发现消息类型不管事map还是pojo对象,接收方都能通过Map<String, String>的方式接收并处理
      * @param msg

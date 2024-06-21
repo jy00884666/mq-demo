@@ -13,22 +13,12 @@ spring:
     username: guest
     # 密码
     password: guest
-    #开启发送确认机制，将来消息到达交换机以后有一个回调
-    publisher-confirm-type: correlated
-    #消息到达消息队列回调（如果消息没有成功到达队列，会触发回调方法）
-    publisher-returns: true
-    template:
-      retry:
-        enabled: true  # 开启重发机制
-        initial-interval: 1000ms #间隔 1秒
-        max-attempts: 6    #最多发6次
-        multiplier: 1.2 #每次间隔 时间*1.2
-        max-interval: 10000ms  #每次最大间隔时间
+
     listener:
       simple:
         # 应答模式:none(无应答模式),auto(自动应答模式),manual(手动应答模式)
         acknowledge-mode: auto
-        #消息消费者每次只能获取一条消息,处理完成才能获取下一条,不配置的话默认是所有消费者平摊处理队列中所有消息不会考虑消费者处理能力
+        # 预处理消息数量:消息消费者每次只能获取一条消息,处理完成才能获取下一条,不配置的话默认是所有消费者平摊处理队列中所有消息不会考虑消费者处理能力
         prefetch: 1
 
 rabbitmq:
@@ -43,6 +33,8 @@ rabbitmq:
   queueName6: queue6
   # queue7 消息转换器,消息内容为map或者pojo对象
   queueName7: queue7
+  # queue8 消费者确认机制
+  queueName8: queue8
   # 广播式交换机:Fanout会将消息路由到每个绑定的队列中
   fanoutExchange1: fanoutExchange1
   # 指定式交换机:Direct会将消息路由到指定的RoutingKey绑定的队列中
@@ -51,6 +43,8 @@ rabbitmq:
   fanoutExchange3: fanoutExchange3
   # 交换机4:绑定queue7:RoutingKey[object.pojo]
   fanoutExchange4: fanoutExchange4
+  # 交换机5:绑定queue8:RoutingKey[confirmCallback]
+  fanoutExchange5: fanoutExchange5
   queue:
     # 处理queue5{RoutingKey[china.#]}队列的消息
     routingkey5: 'china.#'
@@ -58,6 +52,7 @@ rabbitmq:
     routingkey6: '#.news'
     # queue7的Routingkey
     routingkey7: object.pojo
-
+    # queue8的Routingkey
+    routingkey8: confirmCallback
 
 

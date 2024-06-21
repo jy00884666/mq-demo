@@ -31,7 +31,7 @@ public class Publisher3Controller {
     @RequestMapping("/send1")
     public String send1(@RequestParam("msg") String msg) {
         try {
-            // 发送消息入参(交换机名称,RoutingKey[暂时为空],消息内容)
+            // 发送消息入参(交换机名称,RoutingKey,消息内容)
             rabbitTemplate.convertAndSend(EXCHANGE_NAME, "red", msg + "[red]来了");
             rabbitTemplate.convertAndSend(EXCHANGE_NAME, "blue", msg + "[blue]来了");
             rabbitTemplate.convertAndSend(EXCHANGE_NAME, "yellow", msg + "[yellow]来了");

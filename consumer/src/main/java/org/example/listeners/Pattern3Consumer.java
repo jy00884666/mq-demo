@@ -23,7 +23,7 @@ public class Pattern3Consumer {
     
     /**
      * 处理queue3{RoutingKey[red,blue]}队列的消息
-     * durable = "true"表示创建持久化的消息队列
+     * durable = "true"表示创建持久化的消息队列,非持久化消息队列queue不会将消息记录到磁盘
      * @param msg
      */
     @RabbitListener(bindings = @QueueBinding(
@@ -37,7 +37,7 @@ public class Pattern3Consumer {
     
     /**
      * 处理queue4{RoutinKey[red,yellow]}队列的消息
-     * durable = "true"表示创建持久化的消息队列
+     * durable = "true"表示创建持久化的消息队列,非持久化消息队列queue不会将消息记录到磁盘
      * @param msg
      */
     @RabbitListener(bindings = @QueueBinding(
