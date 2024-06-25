@@ -33,7 +33,7 @@ public class Pattern4Consumer {
             key = {"${rabbitmq.queue.routingkey5}"}
     ))
     public void listenerQueue5(String msg) {
-        log.info("queue5队列:消费者5收到了消息:{}", msg);
+        log.info("queue5队列:消息内容:{}", msg);
     }
     
     /**
@@ -47,6 +47,6 @@ public class Pattern4Consumer {
             key = {"${rabbitmq.queue.routingkey6}"}
     ))
     public void listenerQueue6(String msg) {
-        log.info("queue6队列:消费者6收到了消息:{}", msg);
+        log.info("queue6队列:消息内容:{}", msg);
     }
 }

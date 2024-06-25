@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
  * 一.通过配置类@Configuration @Bean new Queue,缺点当配置多个交换机与消息队列时过于繁琐,尤其是绑定多个RoutingKey的时候需要复制很多代码
  * 二.通过@RabbitListener注解申明,推荐使用
  */
-@Configuration
 @Slf4j
 @Component
 public class Pattern2Consumer {
@@ -32,7 +31,7 @@ public class Pattern2Consumer {
             exchange = @Exchange(name = "${rabbitmq.fanoutExchange1}", type = ExchangeTypes.FANOUT)
     ))
     public void listenerQueue1(String msg) {
-        log.info("queue1队列:消费者1收到了消息:{}", msg);
+        log.info("queue1队列:消息内容:{}", msg);
     }
     
     /**
@@ -45,6 +44,6 @@ public class Pattern2Consumer {
             exchange = @Exchange(name = "${rabbitmq.fanoutExchange1}", type = ExchangeTypes.FANOUT)
     ))
     public void listenerQueue2(String msg) {
-        log.info("queue2队列:消费者2收到了消息:{}", msg);
+        log.info("queue2队列:消息内容:{}", msg);
     }
 }

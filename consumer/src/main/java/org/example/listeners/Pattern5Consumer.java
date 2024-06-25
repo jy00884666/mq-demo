@@ -34,7 +34,7 @@ public class Pattern5Consumer {
             exchange = @Exchange(name = "${rabbitmq.fanoutExchange4}", type = ExchangeTypes.DIRECT),
             key = {"${rabbitmq.queue.routingkey7}"}
     ))
-    public void listenerQueue5(Map<String, String> msg) {
+    public void listenerQueue7(Map<String, String> msg) {
         log.info("queue7队列:消息内容:{}", msg);
     }
     

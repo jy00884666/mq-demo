@@ -13,13 +13,32 @@ spring:
     username: guest
     # 密码
     password: guest
-
+    # 为了确认消费者是否成功处理消息, RabbitMQ提供了消费者确认机制(Consumer Acknowledgement) 。当消费者处理消息结束后，
+    # 应该向RabbitMQ发送一个回执，告知RabbitMQ自己消息处理状态。回执有三种可选值：
+    # --ack：成功处理消息，RabbitMQ从队列中删除该消息
+    # --nack:消息处理失败, RabbitMQ需要再次投递消息
+    # --reject：消息处理失败并拒绝该消息，RabbitMQ从队列中删除该消息
     listener:
       simple:
         # 应答模式:none(无应答模式),auto(自动应答模式),manual(手动应答模式)
+        # none:不处理。即消息投递给消费者后立刻ack，消息会立刻从MQ删除。非常不安全,不建议使用
+        # manual:手动模式。 需要自己在业务代码中调用api,发送ack或reject,存在业务入侵，但更灵活
+        # auto:自动模式。pringAMOP利用AOP对我们的消息处理逻辑做了环绕增强,当业务正常执行时则自动返回ack.
+        # 当业务出现异常时，根据异常判断返回不同结果:
+        # --如果是业务异常，会自动返回nack
+        # --如果是消息处理或校验异常,自动返回reject,如消息转换异常MessageConversionException
         acknowledge-mode: auto
         # 预处理消息数量:消息消费者每次只能获取一条消息,处理完成才能获取下一条,不配置的话默认是所有消费者平摊处理队列中所有消息不会考虑消费者处理能力
         prefetch: 1
+        # 消费者消息失败重试机制:当消费者出现异常时消息会不断地被requeue(重入队列),再重新发送给消费者,再次异常再次requeue,无线循环
+        # 导致MQ消息处理飙升,带来不必要的压力
+        # 我们可以利用Spring的retry机制,在消费者出现异常时利用本地面试,而不是无限制的requeue到MQ队列
+        retry:
+          enabled: true # 开启消费者失败重试
+          initial-interval: 1000ms # 初始的失败等待时长1秒
+          multiplier: 1 # 下次失败的等待时长倍数,下次等待时长 = multiplier * 最后的initial-interval
+          max-attempts: 3 # 最大重试次数
+          stateless: true # true无状态,false有状态.如果业务中有事务,这里改为false
 
 rabbitmq:
   # queue1,queue2绑定交换机fanoutExchange1,Fanout广播模式无RoutingKey
@@ -35,6 +54,11 @@ rabbitmq:
   queueName7: queue7
   # queue8 消费者确认机制
   queueName8: queue8
+  # queue9 测试消费者消息处理异常重试机制,会固定抛出异常到达消费者本地重试上线然后发送到error.direct交换机统一处理消息
+  queueName9: queue9
+  # 处理消费者本地异常消息重试次数耗尽的error.queue
+  queueName10: error.queue
+
   # 广播式交换机:Fanout会将消息路由到每个绑定的队列中
   fanoutExchange1: fanoutExchange1
   # 指定式交换机:Direct会将消息路由到指定的RoutingKey绑定的队列中
@@ -45,6 +69,11 @@ rabbitmq:
   fanoutExchange4: fanoutExchange4
   # 交换机5:绑定queue8:RoutingKey[confirmCallback]
   fanoutExchange5: fanoutExchange5
+  # 交换机6:测试消费者消息处理异常重试机制,会固定抛出异常到达消费者本地重试上线然后发送到 fanoutExchange7:error.direct 交换机统一处理消息
+  fanoutExchange6: fanoutExchange6
+  # 交换机7:绑定error.queue:RoutingKey[error.queue]
+  fanoutExchange7: error.direct
+
   queue:
     # 处理queue5{RoutingKey[china.#]}队列的消息
     routingkey5: 'china.#'
@@ -54,5 +83,11 @@ rabbitmq:
     routingkey7: object.pojo
     # queue8的Routingkey
     routingkey8: confirmCallback
+    # queue9的Routingkey
+    routingkey9: repetition
+    # queue10的Routingkey=error
+    routingkey10: error
+
+
 
 

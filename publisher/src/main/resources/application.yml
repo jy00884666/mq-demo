@@ -14,7 +14,7 @@ spring:
     # 密码
     password: guest
     #  * 如何处理生产者的确认消息?
-    #  * 生产者确认需要额外的网络和系统资源开销,尽量不要使用
+    #  * 生产者确认需要额外的网络和系统资源开销,尽量不要使用,实际测试开启发送消息确认功能后性能降低了九成
     #  * 如果一定要使用，无需开启Publisher-Return机制，因为一般路由失败是自己业务问题
     #  * 对于nack消息可以有限次数重试，依然失败则记录异常消息
     # 开启消息生产者消息发送确认机制,消息到达交换机以后有一个回调,这里有三种类型 none-关闭确认机制, simple-同步阻塞等待MQ回执消息, correlated-MQ异步回调方式回执消息
@@ -48,6 +48,9 @@ rabbitmq:
   fanoutExchange4: fanoutExchange4
   # 交换机5:绑定queue8:RoutingKey[confirmCallback]
   fanoutExchange5: fanoutExchange5
+  # 交换机6:测试消费者消息处理异常重试机制,会固定抛出异常到达消费者本地重试上线然后发送到 fanoutExchange7:error.direct 交换机统一处理消息
+  fanoutExchange6: fanoutExchange6
+
   queue:
     # 处理queue5{RoutingKey[china.#]}队列的消息
     routingkey5: "china.#"
@@ -57,5 +60,9 @@ rabbitmq:
     routingkey7: object.pojo
     # queue8的Routingkey
     routingkey8: confirmCallback
+    # queue9的Routingkey
+    routingkey9: repetition
+
+
 
 

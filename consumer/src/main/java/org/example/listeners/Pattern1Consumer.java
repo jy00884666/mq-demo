@@ -28,7 +28,7 @@ public class Pattern1Consumer {
      */
     @RabbitListener(queues = "${rabbitmq.queueName1}")
     public void listenerSimpleQueue1(String msg) {
-        log.info("queue1队列:消费者收到了消息:{}", msg);
+        log.info("queue1队列:消息内容:{}", msg);
     }
     
 }

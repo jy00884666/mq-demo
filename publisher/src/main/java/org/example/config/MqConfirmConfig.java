@@ -1,5 +1,6 @@
 package org.example.config;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeansException;
@@ -17,12 +18,13 @@ public class MqConfirmConfig implements ApplicationContextAware {
     
     /**
      * 如何处理生产者的确认消息?
-     * 生产者确认需要额外的网络和系统资源开销,尽量不要使用
+     * 生产者确认需要额外的网络和系统资源开销,尽量不要使用,实际测试开启发送消息确认功能后性能降低了九成
      * 如果一定要使用，无需开启Publisher-Return机制，因为一般路由失败是自己业务问题
      * 对于nack消息可以有限次数重试，依然失败则记录异常消息
      */
     
     /**
+     * Spring启动时定义了失败的回调
      * Spring容器提供的方法,会将容器传入
      * @param applicationContext
      * @throws BeansException
@@ -31,7 +33,9 @@ public class MqConfirmConfig implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         // 获取RabbitTemplate对象
         RabbitTemplate rabbitTemplate = applicationContext.getBean(RabbitTemplate.class);
-        // 配置回调ReturnCallBack
+        // Spring启动时执行setApplicationContext()方法
+        log.info("Spring启动时执行了setApplicationContext()方法:{}", JSONObject.toJSONString(rabbitTemplate));
+        // 配置回调ReturnCallBack,一般只有MQ本身失败才会走setReturnCallback()方法,例如内存空间或磁盘空间不足等等
         rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
             log.info("消息发送失败,应答码:{},原因:{},交换机{},路由器{},消息内容{}",
                     replyCode, replyText, exchange, routingKey, message.toString());

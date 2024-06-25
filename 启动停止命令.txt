@@ -1,0 +1,7 @@
+# 进入RabbitMQ服务器安装目录,如 D:\RabbitMQ\RabbitMQ Service\rabbitmq_server-3.10.7\sbin目录下
+
+# 启动RabbitMQ服务
+./rabbitmq-server.bat start
+
+# 停止RabbitMQ服务
+./rabbitmq-server.bat stop

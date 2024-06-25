@@ -32,7 +32,7 @@ public class Pattern3Consumer {
             key = {"red", "blue"}
     ))
     public void listenerQueue3(String msg) {
-        log.info("queue3队列:消费者3收到了消息:{}", msg);
+        log.info("queue3队列:消息内容:{}", msg);
     }
     
     /**
@@ -46,6 +46,6 @@ public class Pattern3Consumer {
             key = {"red", "yellow"}
     ))
     public void listenerQueue4(String msg) {
-        log.info("queue4队列:消费者4收到了消息:{}", msg);
+        log.info("queue4队列:消息内容:{}", msg);
     }
 }
