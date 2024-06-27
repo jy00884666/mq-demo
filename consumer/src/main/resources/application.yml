@@ -58,6 +58,8 @@ rabbitmq:
   queueName9: queue9
   # 处理消费者本地异常消息重试次数耗尽的error.queue
   queueName10: error.queue
+  # queue11 延迟交换机绑定队列:需要安装RabbitMQ提供的延迟交换机插件
+  queueName11: queue11
 
   # 广播式交换机:Fanout会将消息路由到每个绑定的队列中
   fanoutExchange1: fanoutExchange1
@@ -73,6 +75,8 @@ rabbitmq:
   fanoutExchange6: fanoutExchange6
   # 交换机7:绑定error.queue:RoutingKey[error.queue]
   fanoutExchange7: error.direct
+  # 交换机8:延迟交换机:需要安装RabbitMQ提供的延迟交换机插件
+  fanoutExchange8: fanoutExchange8
 
   queue:
     # 处理queue5{RoutingKey[china.#]}队列的消息
@@ -87,7 +91,8 @@ rabbitmq:
     routingkey9: repetition
     # queue10的Routingkey=error
     routingkey10: error
-
+    # queue11的RoutingKey,绑定延迟交换机与消息队列的RoutingKey:需要安装RabbitMQ提供的延迟交换机插件
+    routingkey11: fanoutExchange8.queue11.delay
 
 
 

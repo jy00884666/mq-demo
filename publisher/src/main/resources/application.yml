@@ -32,6 +32,9 @@ spring:
         max-attempts: 6 # 最大重发次数,最多发6次
         multiplier: 1 # 失败后下次等待时长倍数,每次等待时长 = initial-interval * multiplier
         max-interval: 10000ms #每次最大间隔时间
+      # 设置Mandatory:true当你发布一条消息到一个没有任何消费者监听的队列时，默认情况下，RabbitMQ 会丢弃这条消息并且不通知生产者。如果你将 mandatory 参数设置为 true，那么当 RabbitMQ 尝试发送消息到一个无人监听的队列时，会将这条消息返回给发送者，而不是丢弃。
+      # 消息无法路由。报错：NO_ROUTE
+      mandatory: false
 
 
 
@@ -50,6 +53,8 @@ rabbitmq:
   fanoutExchange5: fanoutExchange5
   # 交换机6:测试消费者消息处理异常重试机制,会固定抛出异常到达消费者本地重试上线然后发送到 fanoutExchange7:error.direct 交换机统一处理消息
   fanoutExchange6: fanoutExchange6
+  # 交换机8:延迟交换机:需要安装RabbitMQ提供的延迟交换机插件
+  fanoutExchange8: fanoutExchange8
 
   queue:
     # 处理queue5{RoutingKey[china.#]}队列的消息
@@ -62,7 +67,8 @@ rabbitmq:
     routingkey8: confirmCallback
     # queue9的Routingkey
     routingkey9: repetition
-
+    # queue11的RoutingKey,绑定延迟交换机与消息队列的RoutingKey:需要安装RabbitMQ提供的延迟交换机插件
+    routingkey11: fanoutExchange8.queue11.delay
 
 
 

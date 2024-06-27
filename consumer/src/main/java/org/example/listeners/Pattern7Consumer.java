@@ -32,7 +32,7 @@ public class Pattern7Consumer {
             exchange = @Exchange(name = "${rabbitmq.fanoutExchange6}", type = ExchangeTypes.DIRECT),
             key = {"${rabbitmq.queue.routingkey9}"}
     ))
-    public void listenerQueue9(Object msg) {
+    public void listenerQueue9(Object msg) throws Exception{
         log.info("queue9队列:消息内容:{}", msg);
         // 消息主体内容
         String body = new String(((Message) msg).getBody());
@@ -40,7 +40,7 @@ public class Pattern7Consumer {
         // 消息属性,包含异常信息
         MessageProperties messageProperties = ((Message) msg).getMessageProperties();
         log.info("messageProperties:{}", messageProperties);
-        throw new RuntimeException("故意的");
+        throw new Exception("故意的");
     }
     
 }
