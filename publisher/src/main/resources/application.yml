@@ -33,7 +33,7 @@ spring:
         multiplier: 1 # 失败后下次等待时长倍数,每次等待时长 = initial-interval * multiplier
         max-interval: 10000ms #每次最大间隔时间
       # 设置Mandatory:true当你发布一条消息到一个没有任何消费者监听的队列时，默认情况下，RabbitMQ 会丢弃这条消息并且不通知生产者。如果你将 mandatory 参数设置为 true，那么当 RabbitMQ 尝试发送消息到一个无人监听的队列时，会将这条消息返回给发送者，而不是丢弃。
-      # 消息无法路由。报错：NO_ROUTE
+      # 消息无法路由。报错：NO_ROUTE,需要配置Spring提供的消息发送者失败回调方法setApplicationContext(ApplicationContext applicationContext)
       mandatory: false
 
 

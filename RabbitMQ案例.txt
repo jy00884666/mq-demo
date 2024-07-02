@@ -1,0 +1,16 @@
+本应用为RabbitMQ案例,包含如下例子
+1.无交换机模式,直接发送消息到队列queue----消息发送代码SpringAmqpTest.java,Publisher1Controller.java,消息消费者Pattern1Consumer.java
+2.广播式交换机:fanout会将消息路由到每个绑定的队列中----消息发送代码FanoutTest.java,Publisher2Controller.java,消息消费者Pattern2Consumer.java
+3.指定式交换机:Direct会将消息路由到指定的Routing key绑定的队列中----消息发送者DirectTest.java,Publisher3Controller.java,消息消费者Pattern3Consumer.java
+4.通配符交换机:TopicExchange----消息发送者TopicTest.java,消息消费者Pattern4Consumer.java
+5.消费者单个发送消息确认回调,惰性队列----消息发送者ConfirmCallbackTest.java,消息消费者Pattern6Consumer.java(惰性队列由于会影响其他案例所以注释了部分代码)
+6.消息内容转换器可以传输对象----消息发送者SpringAmqpTest.java,Publisher1Controller.java,消息消费者Pattern5Consumer.java,配置MessageConverter jacksonMessageConverter()
+7.测试消费者消息处理异常重试机制----消息发送者RepetitionTest.java,消息消费者Pattern7Consumer.java,Pattern8Consumer.java
+8.延迟队列(安装插件,两种实现方案)----消息发送者DelayTest.java,消息消费者Pattern9Consumer.java
+
+
+
+
+
+
+

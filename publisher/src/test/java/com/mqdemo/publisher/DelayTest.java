@@ -106,6 +106,9 @@ public class DelayTest {
      * 不想接收路由失败消息时设置发送者yml
      * spring:rabbitmq:publisher-returns: false
      * spring:rabbitmq:template:mandatory: false
+     *
+     * 推荐使用这种方法:非常适合延迟时间不长的业务处理,例如订单支付成功后在1分钟之内查询支付状态修改订单状态
+     * 延迟消息缺点在于非常消耗CPU,尤其是时间跨度特别大的延迟消息,例如一天,一个小时,如果并发很高会非常消耗服务器CPU运算能力
      */
     @Test
     public void testSend2() throws InterruptedException {
